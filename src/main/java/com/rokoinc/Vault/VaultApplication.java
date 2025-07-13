@@ -27,8 +27,8 @@ public class VaultApplication {
 
 	// simple user model with record
 	public record User(
-			Integer id, String firstName, String lastName, String email, String phoneNumber,
-			LocalDate dateOfBirth, String GPS, String city, String state, String zipCode, Gender gender,
+			Integer id, String firstName, String lastName, String email, String phone,
+			LocalDate dateOfBirth, String GPS, String city, String region, String zipCode, Gender gender,
 			LocalDate createdAt, LocalDate updatedAt
 	) {
 
@@ -140,6 +140,30 @@ public class VaultApplication {
         return users.stream().filter(user -> user.id.equals(id)).findFirst();
 	}
 
+	@PostMapping
+	public Optional<User> addUser(@RequestBody User newUser) {
+		// Create new user with auto-generated ID and current timestamps
+		User createdUser = new User(
+				idCounter.incrementAndGet(),
+				newUser.firstName,
+				newUser.lastName,
+				newUser.email,
+				newUser.phone,
+				newUser.dateOfBirth,
+				newUser.GPS,
+				newUser.city,
+				newUser.region,
+				newUser.zipCode,
+				newUser.gender,
+				LocalDate.now(),
+				LocalDate.now()
+		);
+
+		// Add to the users collection
+		users.add(createdUser);
+
+		return Optional.of(createdUser);
+	}
 
 
 
