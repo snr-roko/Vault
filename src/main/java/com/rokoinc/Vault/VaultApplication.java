@@ -2,14 +2,13 @@ package com.rokoinc.Vault;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -127,7 +126,7 @@ public class VaultApplication {
 	// enum for sorting
 	public enum SortingOrder {ASC, DESC}
 
-	@RequestMapping
+	@GetMapping
 	public List<User> getAllUsers(@RequestParam(value = "sort", defaultValue = "ASC") SortingOrder sort) {
 		if (sort == SortingOrder.ASC) {
 			return users.stream().sorted(Comparator.comparing(User::id)).collect(Collectors.toList());
@@ -136,6 +135,10 @@ public class VaultApplication {
 		return users.stream().sorted(Comparator.comparing(User::id).reversed()).collect(Collectors.toList());
 	}
 
+	@GetMapping("{id}")
+	public Optional<User> getUserById (@PathVariable("id") Integer id) {
+        return users.stream().filter(user -> user.id.equals(id)).findFirst();
+	}
 
 
 
