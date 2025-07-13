@@ -2,6 +2,7 @@ package com.rokoinc.Vault;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -127,21 +128,26 @@ public class VaultApplication {
 	public enum SortingOrder {ASC, DESC}
 
 	@GetMapping
-	public List<User> getAllUsers(@RequestParam(value = "sort", defaultValue = "ASC") SortingOrder sort) {
+	public ResponseEntity<List<User>> getAllUsers(@RequestParam(value = "sort", defaultValue = "ASC") SortingOrder sort) {
 		if (sort == SortingOrder.ASC) {
-			return users.stream().sorted(Comparator.comparing(User::id)).collect(Collectors.toList());
+			List<User> response = users.stream().sorted(Comparator.comparing(User::id)).collect(Collectors.toList());
+
+			return ResponseEntity.ok().body(response);
 		}
 
-		return users.stream().sorted(Comparator.comparing(User::id).reversed()).collect(Collectors.toList());
+		List<User> response = users.stream().sorted(Comparator.comparing(User::id).reversed()).collect(Collectors.toList());
+		return ResponseEntity.ok().body(response);
 	}
 
 	@GetMapping("{id}")
-	public Optional<User> getUserById (@PathVariable("id") Integer id) {
-        return users.stream().filter(user -> user.id.equals(id)).findFirst();
+	public ResponseEntity<Optional<User>> getUserById (@PathVariable("id") Integer id) {
+        Optional<User> response = users.stream().filter(user -> user.id.equals(id)).findFirst();
+
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping
-	public Optional<User> addUser(@RequestBody User newUser) {
+	public ResponseEntity<Optional<User>> addUser(@RequestBody User newUser) {
 		// Create new user with auto-generated ID and current timestamps
 		User createdUser = new User(
 				idCounter.incrementAndGet(),
@@ -162,9 +168,15 @@ public class VaultApplication {
 		// Add to the users collection
 		users.add(createdUser);
 
-		return Optional.of(createdUser);
+		Optional<User> response = Optional.of(createdUser);
+
+		return ResponseEntity.ok(response);
 	}
 
-
+	// update a user
+	// to continue
+	public Optional<User> updateUser(@RequestBody User user) {
+		return Optional.of(user);
+	}
 
 }
