@@ -74,4 +74,59 @@ public class UserService {
         }
     }
 
+    // updating a user
+    public void updateUser(Integer id, UpdateUserRequest userData) {
+        User user = userRepository
+                .getUsers()
+                .stream()
+                .filter(u -> u.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+
+        // update first name
+        if ((userData.firstName() != null) && (!userData.firstName().equalsIgnoreCase(user.getFirstName()))) {
+            user.setFirstName(userData.firstName());
+        }
+
+        // update last name
+        if ((userData.lastName() != null) && (!userData.lastName().equalsIgnoreCase(user.getLastName()))) {
+            user.setLastName(userData.lastName());
+        }
+
+        // update phone
+        if ((userData.phone() != null) && (!userData.phone().equalsIgnoreCase(user.getPhone()))) {
+            user.setPhone(userData.phone());
+        }
+
+        // update date of birth
+        if ((userData.dateOfBirth() != null) && (userData.dateOfBirth() != user.getDateOfBirth())) {
+            user.setDateOfBirth(userData.dateOfBirth());
+        }
+
+        // update GPS
+        if ((userData.GPS() != null) && (!userData.GPS().equalsIgnoreCase(user.getGPS()))) {
+            user.setGPS(userData.GPS());
+        }
+
+        // update city
+        if ((userData.city() != null) && (!userData.city().equalsIgnoreCase(user.getCity()))) {
+            user.setCity(userData.city());
+        }
+
+        // update region
+        if ((userData.region() != null) && (!userData.region().equals(user.getRegion()))) {
+            user.setRegion(userData.region());
+        }
+
+        // update zip code
+        if ((userData.zipCode() != null) && (!userData.zipCode().equals(user.getZipCode()))) {
+            user.setZipCode(userData.zipCode());
+        }
+
+        // update gender
+        if ((userData.gender() != null) && (!userData.gender().equals(user.getGender()))) {
+            user.setGender(userData.gender());
+        }
+    }
+
 }
