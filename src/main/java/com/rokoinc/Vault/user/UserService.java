@@ -1,6 +1,7 @@
 package com.rokoinc.Vault.user;
 
 import com.rokoinc.Vault.SortingOrder;
+import com.rokoinc.Vault.exceptions.DuplicateResourceException;
 import com.rokoinc.Vault.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,16 @@ public class UserService {
     }
 
     public Optional<User> addUser(NewUserRequest newUser) {
+
+        // reject if email exists already
+        boolean emailExists = userRepository
+                .getUsers()
+                .stream()
+                .anyMatch(user -> user.getEmail().equalsIgnoreCase(newUser.email()));
+        if (emailExists) {
+            throw new DuplicateResourceException("User already Exists");
+        }
+
         // Create new user with auto-generated ID and current timestamps
         User createdUser = new User(
                 userRepository.getIdCounter().incrementAndGet(),

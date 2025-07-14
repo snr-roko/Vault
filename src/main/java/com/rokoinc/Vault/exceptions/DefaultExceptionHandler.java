@@ -26,6 +26,22 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<APIErrorModel> handleDuplicateResourceExceptions(
+            DuplicateResourceException exception,
+            HttpServletRequest request
+    ) {
+        APIErrorModel error = new APIErrorModel(
+                request.getRequestURI(),
+                exception.getMessage(),
+                LocalDateTime.now(),
+                List.of()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIErrorModel> handleAllOtherExceptions(
             Exception exception,
