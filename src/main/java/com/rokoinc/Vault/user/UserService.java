@@ -1,6 +1,7 @@
 package com.rokoinc.Vault.user;
 
 import com.rokoinc.Vault.SortingOrder;
+import com.rokoinc.Vault.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,10 +34,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<User> getUserById (Integer id) {
+    public User getUserById (Integer id) {
         return userRepository.getUsers()
                 .stream()
-                .filter(user -> user.getId().equals(id)).findFirst();
+                .filter(user -> user.getId().equals(id))
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
 
     public Optional<User> addUser(NewUserRequest newUser) {
@@ -65,7 +67,11 @@ public class UserService {
     }
 
     public void deleteUser(Integer id) {
-        userRepository.getUsers().removeIf(user -> user.getId().equals(id));
+        boolean removed = userRepository.getUsers()
+                .removeIf(user -> user.getId().equals(id));
+        if (!removed) {
+            throw new ResourceNotFoundException("User Not Found");
+        }
     }
 
 }

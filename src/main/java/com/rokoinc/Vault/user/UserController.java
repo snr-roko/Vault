@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public Optional<User> getUserById (@Valid @Positive @PathVariable("id") Integer id) {
+    public User getUserById (@Valid @Positive @PathVariable("id") Integer id) {
         return userService.getUserById(id);
     }
 
