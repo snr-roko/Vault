@@ -1,6 +1,8 @@
 package com.rokoinc.Vault.user;
 
 import com.rokoinc.Vault.SortingOrder;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,17 +25,17 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public Optional<User> getUserById (@PathVariable("id") Integer id) {
+    public Optional<User> getUserById (@Valid @Positive @PathVariable("id") Integer id) {
         return userService.getUserById(id);
     }
 
     @PostMapping
-    public Optional<User> addUser(@RequestBody User newUser) {
+    public Optional<User> addUser(@Valid @RequestBody NewUserRequest newUser) {
         return userService.addUser(newUser);
     }
 
     @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
+    public void deleteUser(@Valid @Positive @PathVariable("id") Integer id) {
         userService.deleteUser(id);
     }
 

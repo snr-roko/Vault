@@ -2,12 +2,10 @@ package com.rokoinc.Vault.user;
 
 import com.rokoinc.Vault.SortingOrder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,20 +39,20 @@ public class UserService {
                 .filter(user -> user.getId().equals(id)).findFirst();
     }
 
-    public Optional<User> addUser(User newUser) {
+    public Optional<User> addUser(NewUserRequest newUser) {
         // Create new user with auto-generated ID and current timestamps
         User createdUser = new User(
                 userRepository.getIdCounter().incrementAndGet(),
-                newUser.getFirstName(),
-                newUser.getLastName(),
-                newUser.getEmail(),
-                newUser.getPhone(),
-                newUser.getDateOfBirth(),
-                newUser.getGPS(),
-                newUser.getCity(),
-                newUser.getRegion(),
-                newUser.getZipCode(),
-                newUser.getGender(),
+                newUser.firstName(),
+                newUser.lastName(),
+                newUser.email(),
+                newUser.phone(),
+                newUser.dateOfBirth(),
+                newUser.GPS(),
+                newUser.city(),
+                newUser.region(),
+                newUser.zipCode(),
+                newUser.gender(),
                 LocalDate.now(),
                 LocalDate.now()
         );
