@@ -1,6 +1,7 @@
 package com.rokoinc.Vault.user;
 
 import com.rokoinc.Vault.SortingOrder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class UserService {
 
     private final UserRepository userRepository;
@@ -65,7 +67,7 @@ public class UserService {
     }
 
     public void deleteUser(Integer id) {
-        userRepository.getUsers().removeIf(user -> Objects.equals(user.getId(), id))
+        userRepository.getUsers().removeIf(user -> user.getId().equals(id));
     }
 
 }
