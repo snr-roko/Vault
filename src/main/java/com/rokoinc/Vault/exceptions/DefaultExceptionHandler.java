@@ -1,8 +1,10 @@
 package com.rokoinc.Vault.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -40,6 +42,27 @@ public class DefaultExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<APIErrorModel> handleBadRequests(
+            MethodArgumentNotValidException exception,
+            HttpServletRequest request
+    ) {
+        List<String> errors = exception
+                .getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
+
+        APIErrorModel error = new APIErrorModel(
+                request.getRequestURI(),
+                "Bad Request",
+                LocalDateTime.now(),
+                errors
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
