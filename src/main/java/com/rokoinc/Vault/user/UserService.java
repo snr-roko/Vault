@@ -73,11 +73,8 @@ public class UserService {
 
     // updating a user
     public void updateUser(Integer id, UpdateUserRequest userData) {
-        User user = localUserRepository
-                .getUsers()
-                .stream()
-                .filter(u -> u.getId().equals(id))
-                .findFirst()
+        User user = userRepository
+                .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         // update first name
@@ -124,6 +121,8 @@ public class UserService {
         if ((userData.gender() != null) && (!userData.gender().equals(user.getGender()))) {
             user.setGender(userData.gender());
         }
+
+        userRepository.save(user);
     }
 
 }
