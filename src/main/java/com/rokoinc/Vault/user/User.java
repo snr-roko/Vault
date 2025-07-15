@@ -1,9 +1,16 @@
 package com.rokoinc.Vault.user;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 // User Model Class
+@Entity
+@Table(name = "users")
 public class User{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstName;
     private String lastName;
@@ -14,13 +21,33 @@ public class User{
     private String city;
     private String region;
     private String zipCode;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
+    // add no arg constructor
+    public User () {
+
+    }
 
     public User(Integer id, String firstName, String lastName, String email, String phone, LocalDate dateOfBirth, String GPS, String city, String region, String zipCode, Gender gender, LocalDate createdAt, LocalDate updatedAt) {
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
+        this.GPS = GPS;
+        this.city = city;
+        this.region = region;
+        this.zipCode = zipCode;
+        this.gender = gender;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public User(String firstName, String lastName, String email, String phone, LocalDate dateOfBirth, String GPS, String city, String region, String zipCode, Gender gender, LocalDate createdAt, LocalDate updatedAt) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

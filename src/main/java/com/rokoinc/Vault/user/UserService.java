@@ -14,48 +14,33 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
+    private final LocalUserRepository localUserRepository;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(LocalUserRepository localUserRepository, UserRepository userRepository) {
+        this.localUserRepository = localUserRepository;
         this.userRepository = userRepository;
     }
 
     public List<User> getAllUsers(SortingOrder sort) {
-        if (sort == SortingOrder.ASC) {
-            return userRepository.getUsers()
-                    .stream()
-                    .sorted(Comparator.comparing(User::getId))
-                    .collect(Collectors.toList());
-
-        }
-
-        return userRepository.getUsers()
-                .stream()
-                .sorted(Comparator.comparing(User::getId).reversed())
-                .collect(Collectors.toList());
+        return userRepository.findAll();
     }
 
     public User getUserById (Integer id) {
-        return userRepository.getUsers()
-                .stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst().orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
 
     public Optional<User> addUser(NewUserRequest newUser) {
 
         // reject if email exists already
-        boolean emailExists = userRepository
-                .getUsers()
-                .stream()
-                .anyMatch(user -> user.getEmail().equalsIgnoreCase(newUser.email()));
+        boolean emailExists = userRepository.existsByEmail(newUser.email());
         if (emailExists) {
             throw new DuplicateResourceException("User already Exists");
         }
 
         // Create new user with auto-generated ID and current timestamps
         User createdUser = new User(
-                userRepository.getIdCounter().incrementAndGet(),
                 newUser.firstName(),
                 newUser.lastName(),
                 newUser.email(),
@@ -70,24 +55,25 @@ public class UserService {
                 LocalDate.now()
         );
 
-        // Add to the users collection
-        userRepository.getUsers().add(createdUser);
+        // save to database
+        userRepository.save(createdUser);
 
         return Optional.of(createdUser);
 
     }
 
     public void deleteUser(Integer id) {
-        boolean removed = userRepository.getUsers()
-                .removeIf(user -> user.getId().equals(id));
-        if (!removed) {
+        boolean userExists = userRepository.existsById(id);
+        if (!userExists) {
             throw new ResourceNotFoundException("User Not Found");
         }
+
+        userRepository.deleteById(id);
     }
 
     // updating a user
     public void updateUser(Integer id, UpdateUserRequest userData) {
-        User user = userRepository
+        User user = localUserRepository
                 .getUsers()
                 .stream()
                 .filter(u -> u.getId().equals(id))
