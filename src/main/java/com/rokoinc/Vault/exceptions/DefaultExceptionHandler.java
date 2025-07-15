@@ -1,14 +1,17 @@
 package com.rokoinc.Vault.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
@@ -44,16 +47,26 @@ public class DefaultExceptionHandler {
 
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class, HandlerMethodValidationException.class})
     public ResponseEntity<APIErrorModel> handleBadRequests(
-            MethodArgumentNotValidException exception,
+            Exception exception,
             HttpServletRequest request
     ) {
-        List<String> errors = exception
-                .getAllErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .toList();
+        List<String> errors = new ArrayList<>();
+        if (exception instanceof MethodArgumentNotValidException argumentException ) {
+            errors = argumentException
+                    .getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+        } else if (exception instanceof HandlerMethodValidationException multipleArgumentException){
+            errors = multipleArgumentException
+                    .getAllErrors()
+                    .stream()
+                    .map(MessageSourceResolvable::getDefaultMessage)
+                    .toList();
+        }
+
 
         APIErrorModel error = new APIErrorModel(
                 request.getRequestURI(),
@@ -76,6 +89,7 @@ public class DefaultExceptionHandler {
                 LocalDateTime.now(),
                 List.of()
         );
+        System.out.println(exception.getClass());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

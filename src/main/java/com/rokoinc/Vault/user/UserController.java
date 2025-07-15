@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public User getUserById (@Valid @Positive @PathVariable("id") Integer id) {
+    public User getUserById (@Valid @Positive(message = "Parameter must be greater than 0") @PathVariable("id") Integer id) {
         return userService.getUserById(id);
     }
 
@@ -35,12 +35,12 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteUser(@Valid @Positive @PathVariable("id") Integer id) {
+    public void deleteUser(@Valid @Positive(message = "Parameter must be greater than 0") @PathVariable("id") Integer id) {
         userService.deleteUser(id);
     }
 
     @PutMapping("{id}")
-    public void updateUser(@Valid @Positive @PathVariable("id") Integer id, @Valid @RequestBody UpdateUserRequest userData) {
+    public void updateUser(@Valid @Positive(message = "Parameter must be greater than 0") @PathVariable("id") Integer id, @Valid @RequestBody UpdateUserRequest userData) {
         userService.updateUser(id, userData);
     }
 
