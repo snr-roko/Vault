@@ -3,27 +3,30 @@ package com.rokoinc.Vault.user;
 import com.rokoinc.Vault.SortingOrder;
 import com.rokoinc.Vault.exceptions.DuplicateResourceException;
 import com.rokoinc.Vault.exceptions.ResourceNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    private final LocalUserRepository localUserRepository;
     private final UserRepository userRepository;
 
-    public UserService(LocalUserRepository localUserRepository, UserRepository userRepository) {
-        this.localUserRepository = localUserRepository;
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public List<User> getAllUsers(SortingOrder sort) {
-        return userRepository.findAll();
+        return userRepository
+                .findAll(
+                        Sort.by(
+                                Sort.Direction.valueOf(sort.name()),
+                                "id"
+                        )
+                );
     }
 
     public User getUserById (Integer id) {
