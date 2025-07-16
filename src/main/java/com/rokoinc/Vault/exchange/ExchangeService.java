@@ -1,8 +1,10 @@
 package com.rokoinc.Vault.exchange;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
@@ -19,6 +21,9 @@ public class ExchangeService {
         return restClient.get()
                 .uri("/" + fromCurrency.toString())
                 .retrieve()
+                .onStatus(HttpStatusCode::isError, ((request, response) -> {
+                    throw new ResponseStatusException(response.getStatusCode());
+                }))
                 .body(new ParameterizedTypeReference<Map<String, Object>>() {});
     }
 
