@@ -15,25 +15,54 @@ public class ExchangeService {
         this.restClient = RestClient.create("https://open.er-api.com/v6/latest");
     }
 
-    public ExchangeRate retrieveExchangeRate (Currency fromCurrency, Currency ToCurrency) {
-        Map<String, Object> response = restClient.get()
+    public Map<String, Object> callExternalAPI (Currency fromCurrency) {
+        return restClient.get()
                 .uri("/" + fromCurrency.toString())
                 .retrieve()
                 .body(new ParameterizedTypeReference<Map<String, Object>>() {});
+    }
+
+    public ExchangeRate retrieveExchangeRate (Currency fromCurrency, Currency toCurrency) {
+        Map<String, Object> response = callExternalAPI(fromCurrency);
 
         assert response != null;
         @SuppressWarnings("unchecked")
         Map<String, Object> rates = (Map<String, Object>) response.get("rates");
 
-        Double exchangeRate = (Double) rates.get(ToCurrency.toString());
+        Double exchangeRate = (Double) rates.get(toCurrency.toString());
 
         String lastUpdated = (String) response.get("time_last_update_utc");
 
         return new ExchangeRate(
                 fromCurrency,
                 fromCurrency.getDisplayName(),
-                ToCurrency,
-                ToCurrency.getDisplayName(),
+                toCurrency,
+                toCurrency.getDisplayName(),
+                exchangeRate,
+                lastUpdated
+        );
+
+    }
+
+    public ExchangeConversion convertAmount (Currency fromCurrency, Currency toCurrency, Double originalAmount) {
+        Map<String, Object> response = callExternalAPI(fromCurrency);
+
+        assert response != null;
+        @SuppressWarnings("unchecked")
+        Map<String, Object> rates = (Map<String, Object>) response.get("rates");
+
+        Double exchangeRate = (Double) rates.get(toCurrency.toString());
+        Double convertedAmount = (Double) (originalAmount * exchangeRate);
+
+        String lastUpdated = (String) response.get("time_last_update_utc");
+
+        return new ExchangeConversion(
+                originalAmount,
+                fromCurrency,
+                fromCurrency.getDisplayName(),
+                toCurrency,
+                toCurrency.getDisplayName(),
+                convertedAmount,
                 exchangeRate,
                 lastUpdated
         );
