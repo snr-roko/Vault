@@ -1,5 +1,7 @@
 package com.rokoinc.Vault;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -11,15 +13,16 @@ import java.util.concurrent.TimeUnit;
 @EnableScheduling
 public class VaultApplication {
 
+	private final Logger logger = LoggerFactory.getLogger(VaultApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(VaultApplication.class, args);
 	}
 
 	@Scheduled(fixedRate = 30, timeUnit = TimeUnit.SECONDS)
 	public void displayApplicationName() throws InterruptedException {
-		System.out.println("*************************Vault*************************");
+		logger.info("*************************Vault*************************");
 		Thread.sleep(5000);
-		System.out.println("New Features Coming");
+		logger.info("New Features Coming");
 	}
-
 }
