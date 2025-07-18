@@ -1,38 +1,103 @@
 package com.rokoinc.Vault.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 // User Model Class
 @Entity
 @Table(name = "users")
-public class User{
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    // first Name
+    @NotBlank(message = "First Name is required")
+    @Size(min = 1, max = 50)
+    @Column(nullable = false, length = 50)
     private String firstName;
+
+    //last name
+    @Size(min = 1, max = 50)
+    @NotBlank(message = "Last Name is required")
+    @Column(nullable = false, length = 50)
     private String lastName;
+
+    // email
+    @Email(message = "Email must be a valid Email")
+    @NotBlank(message = "Email is required")
+    @Column(nullable = false, unique = true)
     private String email;
+
+    // phone
+    @NotBlank(message = "Phone is required")
+    @Size(min=13, max = 15)
+    @Column(nullable = false, length = 15, unique = true)
     private String phone;
+
+    // date of birth
+    @NotBlank(message = "Date of Birth is required")
+    @Column(nullable = false)
+    @Past(message = "Date of Birth must be in the past")
     private LocalDate dateOfBirth;
+
+    // GPS
+    @NotBlank(message = "GPS is required")
+    @Size(min = 8, max = 15)
+    @Column(nullable = false, length = 15)
     private String GPS;
+
+    // city
+    @NotBlank(message = "City is required")
+    @Size(min = 1, max = 50)
+    @Column(nullable = false, length = 50)
     private String city;
+
+    // region
+    @NotBlank(message = "Region is required")
+    @Size(min = 1, max = 50)
+    @Column(nullable = false, length = 50)
     private String region;
-    private String zipCode;
+
     @Enumerated(EnumType.STRING)
+    @NotBlank(message = "Gender is required")
+    @Size(min = 4, max = 7)
+    @Column(length = 7, nullable = false)
     private Gender gender;
+
+    @Column(nullable = false, updatable = false)
     private LocalDate createdAt;
+
+    @Column(nullable = false)
     private LocalDate updatedAt;
+
+    // password
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, max = 50, message = "Password must be at least 8 characters long")
+    @Column(nullable = false)
+    private String password;
+
+    // role
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.CUSTOMER;
 
     // add no arg constructor
     public User () {
 
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String phone, LocalDate dateOfBirth, String GPS, String city, String region, String zipCode, Gender gender, LocalDate createdAt, LocalDate updatedAt) {
-        this.id = id;
+    // constructor argument
+    public User(String firstName, String lastName, String email, String phone, LocalDate dateOfBirth, String GPS, String city, String region, Gender gender, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -41,26 +106,44 @@ public class User{
         this.GPS = GPS;
         this.city = city;
         this.region = region;
-        this.zipCode = zipCode;
         this.gender = gender;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.password = password;
+        this.role = role;
     }
 
-    public User(String firstName, String lastName, String email, String phone, LocalDate dateOfBirth, String GPS, String city, String region, String zipCode, Gender gender, LocalDate createdAt, LocalDate updatedAt) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.dateOfBirth = dateOfBirth;
-        this.GPS = GPS;
-        this.city = city;
-        this.region = region;
-        this.zipCode = zipCode;
-        this.gender = gender;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    // Method to automatically create createdAt and updatedAt fields
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
     }
+
+    // Method to automatically update updatedAt during updating user
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDate.now();
+    }
+
+    // User details methods override
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + role)
+        );
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+
+    // standard getters and setters
 
     public Integer getId() {
         return id;
@@ -134,14 +217,6 @@ public class User{
         this.region = region;
     }
 
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
     public Gender getGender() {
         return gender;
     }
@@ -150,20 +225,24 @@ public class User{
         this.gender = gender;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDate getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
 
