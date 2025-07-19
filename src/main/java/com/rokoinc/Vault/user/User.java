@@ -111,6 +111,19 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public User(String firstName, String lastName, String email, String phone, LocalDate dateOfBirth, String GPS, String city, String region, Gender gender, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
+        this.GPS = GPS;
+        this.city = city;
+        this.region = region;
+        this.gender = gender;
+        this.password = password;
+    }
+
     // Method to automatically create createdAt and updatedAt fields
     @PrePersist
     protected void onCreate() {
