@@ -6,7 +6,6 @@ import com.rokoinc.Vault.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +33,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
 
-    public Optional<User> addUser(NewUserRequest newUser) {
+    public Optional<User> addUser(RegisterRequest newUser) {
 
         // reject if email exists already
         boolean emailExists = userRepository.existsByEmail(newUser.email());
@@ -52,10 +51,8 @@ public class UserService {
                 newUser.GPS(),
                 newUser.city(),
                 newUser.region(),
-                newUser.zipCode(),
                 newUser.gender(),
-                LocalDate.now(),
-                LocalDate.now()
+                newUser.password()
         );
 
         // save to database
@@ -115,10 +112,6 @@ public class UserService {
             user.setRegion(userData.region());
         }
 
-        // update zip code
-        if ((userData.zipCode() != null) && (!userData.zipCode().equals(user.getZipCode()))) {
-            user.setZipCode(userData.zipCode());
-        }
 
         // update gender
         if ((userData.gender() != null) && (!userData.gender().equals(user.getGender()))) {

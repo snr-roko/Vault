@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping
-    public Optional<User> addUser(@Valid @RequestBody NewUserRequest newUser) {
+    public Optional<User> addUser(@Valid @RequestBody RegisterRequest newUser) {
         return userService.addUser(newUser);
     }
 

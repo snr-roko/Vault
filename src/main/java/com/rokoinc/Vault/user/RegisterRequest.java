@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 
-public record NewUserRequest(
+public record RegisterRequest(
         @NotNull(message = "First Name is required") String firstName,
         @NotNull(message = "Last Name is required") String lastName,
         @NotNull(message = "Email is required") @Email(message = "Email must be a valid email") String email,
@@ -15,7 +15,8 @@ public record NewUserRequest(
         @NotNull(message = "GPS is required") String GPS,
         @NotNull(message = "City is required") String city,
         @NotNull(message = "Region is required") String region,
-        @NotNull(message = "ZipCode is required") String zipCode,
-        @NotNull(message = "Gender is required") Gender gender
+        @NotNull(message = "Gender is required") Gender gender,
+        @NotNull(message = "Password is required") String password,
+        @NotNull(message = "Confirm Password") String confirmPassword
 ) {
 }
