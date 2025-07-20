@@ -4,9 +4,11 @@ package com.rokoinc.Vault.user;
 
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+@Service
 public class AuthenticationService {
 
     private final UserRepository userRepository;

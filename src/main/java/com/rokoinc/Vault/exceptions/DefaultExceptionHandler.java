@@ -5,6 +5,7 @@ import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -82,6 +83,21 @@ public class DefaultExceptionHandler {
         );
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<APIErrorModel> handleBadCredentialsException(
+            Exception exception,
+            HttpServletRequest request
+    ) {
+        APIErrorModel error = new APIErrorModel(
+                request.getRequestURI(),
+                "Email or Password is incorrect",
+                LocalDateTime.now(),
+                List.of()
+        );
+
+        return new  ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

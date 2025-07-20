@@ -1,46 +1,61 @@
--- Insert statements for users table
--- Note: ID is auto-generated, so we exclude it from the INSERT
+-- H2 Database INSERT statements for Ghanaian users (Spring Boot initialization)
 
--- User 1
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1990-05-15', 'MALE', '2025-07-15', 'New York', 'john.doe@email.com', 'John', '40.7128,-74.0060', 'Doe', '+1-555-0123', 'New York', '10001');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-15', '1990-03-22', 'Male', '2024-07-18', 'Accra', 'kwame.asante@gmail.com', 'Kwame', 'GA-123-4567', 'Asante', '+233244567890', 'Greater Accra', 'password123', 'ADMIN');
 
--- User 2
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1985-03-22', 'FEMALE', '2025-07-15', 'Los Angeles', 'jane.smith@email.com', 'Jane', '34.0522,-118.2437', 'Smith', '+1-555-0456', 'California', '90210');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-02-10', '1985-07-14', 'Female', '2024-07-19', 'Kumasi', 'akosua.osei@yahoo.com', 'Akosua', 'AK-456-7890', 'Osei', '+233551234567', 'Ashanti', 'securePass456', 'CUSTOMER');
 
--- User 3
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1992-08-10', 'MALE', '2025-07-15', 'Chicago', 'mike.johnson@email.com', 'Mike', '41.8781,-87.6298', 'Johnson', '+1-555-0789', 'Illinois', '60601');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-28', '1992-11-08', 'Male', '2024-07-20', 'Tamale', 'abdul.rahman@hotmail.com', 'Abdul', 'NR-789-0123', 'Rahman', '+233207654321', 'Northern', 'myPassword789', 'SUPPORT');
 
--- User 4
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1988-12-03', 'FEMALE', '2025-07-15', 'Houston', 'sarah.williams@email.com', 'Sarah', '29.7604,-95.3698', 'Williams', '+1-555-0321', 'Texas', '77001');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-03-05', '1988-05-30', 'Female', '2024-07-17', 'Cape Coast', 'ama.mensah@gmail.com', 'Ama', 'CR-234-5678', 'Mensah', '+233244123456', 'Central', 'strongPass321', 'TELLER');
 
--- User 5
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1995-01-25', 'MALE', '2025-07-15', 'Phoenix', 'david.brown@email.com', 'David', '33.4484,-112.0740', 'Brown', '+1-555-0654', 'Arizona', '85001');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-20', '1995-09-12', 'Male', '2024-07-19', 'Tema', 'kofi.adjei@outlook.com', 'Kofi', 'GA-345-6789', 'Adjei', '+233554567890', 'Greater Accra', 'password654', 'SUPPORT_MANAGER');
 
--- User 6
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1987-11-18', 'FEMALE', '2025-07-15', 'Philadelphia', 'emily.davis@email.com', 'Emily', '39.9526,-75.1652', 'Davis', '+1-555-0987', 'Pennsylvania', '19101');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-02-18', '1987-02-25', 'Female', '2024-07-18', 'Takoradi', 'efua.boateng@gmail.com', 'Efua', 'WR-567-8901', 'Boateng', '+233201234567', 'Western', 'userPass987', 'TELLER_MANAGER');
 
--- User 7
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1993-06-07', 'MALE', '2025-07-15', 'San Antonio', 'chris.miller@email.com', 'Chris', '29.4241,-98.4936', 'Miller', '+1-555-0147', 'Texas', '78201');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-03-12', '1993-12-03', 'Male', '2024-07-20', 'Ho', 'edem.koku@yahoo.com', 'Edem', 'VR-678-9012', 'Koku', '+233245678901', 'Volta', 'mySecret147', 'CUSTOMER');
 
--- User 8
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1991-09-14', 'FEMALE', '2025-07-15', 'San Diego', 'lisa.wilson@email.com', 'Lisa', '32.7157,-117.1611', 'Wilson', '+1-555-0258', 'California', '92101');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-08', '1991-06-18', 'Female', '2024-07-19', 'Bolgatanga', 'abena.tetteh@gmail.com', 'Abena', 'UE-789-0123', 'Tetteh', '+233558901234', 'Upper East', 'safePass258', 'TELLER');
 
--- User 9
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1989-04-30', 'MALE', '2025-07-15', 'Dallas', 'robert.moore@email.com', 'Robert', '32.7767,-96.7970', 'Moore', '+1-555-0369', 'Texas', '75201');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-02-25', '1989-10-07', 'Male', '2024-07-18', 'Sunyani', 'yaw.owusu@hotmail.com', 'Yaw', 'BA-890-1234', 'Owusu', '+233243456789', 'Brong-Ahafo', 'loginPass369', 'CUSTOMER');
 
--- User 10
-INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
-VALUES ('2025-07-15', '1994-07-12', 'FEMALE', '2025-07-15', 'San Jose', 'amanda.taylor@email.com', 'Amanda', '37.3382,-121.8863', 'Taylor', '+1-555-0741', 'California', '95101');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-03-20', '1994-04-15', 'Female', '2024-07-20', 'Wa', 'adwoa.adams@outlook.com', 'Adwoa', 'UW-901-2345', 'Adams', '+233209876543', 'Upper West', 'accessKey741', 'SUPPORT');
 
--- Template for creating more users:
--- INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, ZIP_CODE)
--- VALUES ('2025-07-15', 'YYYY-MM-DD', 'MALE_or_FEMALE', '2025-07-15', 'City', 'email@domain.com', 'FirstName', 'lat,lng', 'LastName', '+1-555-XXXX', 'Region', 'ZipCode');
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-30', '1986-08-22', 'Male', '2024-07-17', 'Koforidua', 'kwaku.darko@gmail.com', 'Kwaku', 'ER-012-3456', 'Darko', '+233546789012', 'Eastern', 'secureKey852', 'TELLER');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-02-14', '1996-01-09', 'Female', '2024-07-19', 'Techiman', 'akua.frimpong@yahoo.com', 'Akua', 'BA-123-4567', 'Frimpong', '+233241357924', 'Brong-Ahafo', 'userKey963', 'CUSTOMER');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-03-08', '1990-07-28', 'Male', '2024-07-18', 'Winneba', 'kwesi.hammond@gmail.com', 'Kwesi', 'CR-345-6789', 'Hammond', '+233552468135', 'Central', 'myLogin159', 'ADMIN');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-12', '1993-03-11', 'Female', '2024-07-20', 'Dunkwa', 'maame.asiedu@hotmail.com', 'Maame', 'CR-456-7890', 'Asiedu', '+233208642097', 'Central', 'passCode357', 'CUSTOMER');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-02-28', '1991-09-05', 'Male', '2024-07-19', 'Nkawkaw', 'prince.okyere@outlook.com', 'Prince', 'ER-567-8901', 'Okyere', '+233247531864', 'Eastern', 'loginCode468', 'SUPPORT_MANAGER');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-03-15', '1988-12-17', 'Female', '2024-07-18', 'Elmina', 'sarah.amponsah@gmail.com', 'Sarah', 'CR-678-9012', 'Amponsah', '+233559876543', 'Central', 'accessPass579', 'TELLER_MANAGER');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-25', '1992-05-20', 'Male', '2024-07-19', 'Prestea', 'samuel.tawiah@yahoo.com', 'Samuel', 'WR-789-0123', 'Tawiah', '+233242468102', 'Western', 'secureLogin680', 'CUSTOMER');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-02-08', '1987-11-03', 'Female', '2024-07-20', 'Keta', 'gifty.atsu@hotmail.com', 'Gifty', 'VR-890-1234', 'Atsu', '+233205739284', 'Volta', 'userAccess791', 'TELLER');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-03-18', '1995-08-14', 'Male', '2024-07-17', 'Navrongo', 'daniel.ayariga@outlook.com', 'Daniel', 'UE-901-2345', 'Ayariga', '+233548261739', 'Upper East', 'strongLogin802', 'SUPPORT');
+
+INSERT INTO users (CREATED_AT, DATE_OF_BIRTH, GENDER, UPDATED_AT, CITY, EMAIL, FIRST_NAME, GPS, LAST_NAME, PHONE, REGION, PASSWORD, ROLE)
+VALUES ('2024-01-05', '1989-02-28', 'Female', '2024-07-18', 'Lawra', 'patience.bawa@gmail.com', 'Patience', 'UW-012-3456', 'Bawa', '+233207395184', 'Upper West', 'myPassword913', 'CUSTOMER');

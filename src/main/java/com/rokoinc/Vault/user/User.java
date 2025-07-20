@@ -45,7 +45,7 @@ public class User implements UserDetails {
     private String phone;
 
     // date of birth
-    @NotBlank(message = "Date of Birth is required")
+    @NotNull(message = "Date of Birth is required")
     @Column(nullable = false)
     @Past(message = "Date of Birth must be in the past")
     private LocalDate dateOfBirth;
@@ -69,8 +69,7 @@ public class User implements UserDetails {
     private String region;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Gender is required")
-    @Size(min = 4, max = 7)
+    @NotNull(message = "Gender is required")
     @Column(length = 7, nullable = false)
     private Gender gender;
 
@@ -82,7 +81,6 @@ public class User implements UserDetails {
 
     // password
     @NotBlank(message = "Password is required")
-    @Size(min = 8, max = 50, message = "Password must be at least 8 characters long")
     @Column(nullable = false)
     private String password;
 
