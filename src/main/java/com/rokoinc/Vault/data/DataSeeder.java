@@ -26,10 +26,12 @@ public class DataSeeder implements ApplicationRunner {
                 seedCustomer();
             }
             System.out.println("30 customers seeded");
-        }
+        } else {
 
-        System.out.println(customerRepository.count() + " customers already in Databases");
-        System.out.println("No customer seeding needed");
+            System.out.println(customerRepository.count() + " customers already in Databases");
+            System.out.println("No customer seeding needed");
+
+        }
     }
 
     public void seedCustomer() {
@@ -47,7 +49,7 @@ public class DataSeeder implements ApplicationRunner {
         String phoneNumber = faker.phoneNumber().phoneNumber();
         System.out.println("Creating phone number: " + phoneNumber);
 
-        String GPS = "AK-432-%s%s%s".formatted(faker.number(), faker.number(), faker.number());
+        String GPS = "AK-432-%s%s%s".formatted(faker.number().randomDigit(), faker.number().randomDigit(), faker.number().randomDigit());
         System.out.println("Creating GPS: " + GPS);
 
         String city = faker.address().city();
