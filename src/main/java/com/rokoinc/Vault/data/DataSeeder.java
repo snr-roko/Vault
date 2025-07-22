@@ -20,11 +20,16 @@ public class DataSeeder implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if (customerRepository.count() == 0) {
+            System.out.println("No customers found");
             System.out.println("Seeding 30 Fake ");
             for (int i = 0; i < 30; i++) {
                 seedCustomer();
             }
+            System.out.println("30 customers seeded");
         }
+
+        System.out.println(customerRepository.count() + " customers already in Databases");
+        System.out.println("No customer seeding needed");
     }
 
     public void seedCustomer() {
