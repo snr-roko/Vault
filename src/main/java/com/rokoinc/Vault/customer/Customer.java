@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -49,6 +50,14 @@ public class Customer {
     @Column(nullable = false)
     private Gender gender;
 
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
     public Customer() {
     }
 
@@ -73,6 +82,17 @@ public class Customer {
         this.city = city;
         this.region = region;
         this.gender = gender;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt =  LocalDateTime.now();
+        updatedAt =  LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt =  LocalDateTime.now();
     }
 
     public UUID getId() {
@@ -153,5 +173,13 @@ public class Customer {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }
