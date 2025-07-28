@@ -9,10 +9,9 @@ jobs:
   FirstSimpleJob:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Environment Variables
-        run: printenv
-      - name: Echo text and Create File
-        run: |
-          echo "Vault CI/CD"
-          echo "Vault Workflow" > vault.txt
-          ls
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+      - name: Print App Name
+        run:  echo "Welcome to Vault"
+      - name: build jar package
+        run: .mvn clean package
