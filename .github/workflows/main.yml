@@ -26,7 +26,7 @@ jobs:
           done
       - name: Create database if not existing
         run: |
-          docker compose exec -T db psql -U vault-admin -c "CREATE DATABASE IF NOT EXISTS vault_db;"
+          docker compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
       - name: Maven Verify
         run: mvn -B -ntp clean verify
       - name: remove postgres service
