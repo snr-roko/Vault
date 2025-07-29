@@ -9,6 +9,14 @@ jobs:
   vault-simple-workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Test
-        run: echo "VAULT CI/CD"
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+      - name: Configure JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Maven Verify
+        run: mvn -B -ntp clean verify
+
 
