@@ -1,0 +1,36 @@
+name: Vault CI/CD Workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  vault-simple-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+      - name: Configure JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Run postgresql docker compose file
+        run: docker compose up -d
+      - name: Wait till docker psql is up
+        run: |
+          until docker compose exec -T db pg_isready -U vault-admin -d postgres; do
+            echo "Waiting on database container"
+            sleep 2
+          done
+      - name: Create database if not existing
+        run: |
+          docker compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
+      - name: Maven Verify
+        run: mvn -B -ntp clean verify
+      - name: remove postgres service
+        if: always()
+        run: docker compose down
+
+
