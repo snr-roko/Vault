@@ -10,6 +10,8 @@ jobs:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      AWS_EC2_PRIVATE_KEY: ${{ secrets.AWS_EC2_SSH_PRIVATE_KEY }}
+      AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
@@ -41,3 +43,14 @@ jobs:
           password: ${{ env.DOCKER_PASSWORD }}
       - name: Maven Verify
         run: mvn -B -ntp clean verify jib:build -Ddocker.image.tag=$BUILD_NUMBER
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ env.AWS_EC2_PRIVATE_KEY }}
+      - name: SSH into AWS EC2 Instance
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ env.AWS_EC2_PUBLIC_IP }} << EOF
+            ls
+            pwd
+            echo "snrroko" > test.txt
+          EOF
