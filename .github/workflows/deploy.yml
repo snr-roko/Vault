@@ -47,10 +47,32 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ env.AWS_EC2_PRIVATE_KEY }}
+      - name: Copy postgres docker compose file to aws ec2
+        run: |
+          scp docker-compose.yml ec2-user@${{ env.AWS_EC2_PUBLIC_IP }}:/home/ec2-user
       - name: SSH into AWS EC2 Instance
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@${{ env.AWS_EC2_PUBLIC_IP }} << EOF
-            ls
-            pwd
-            echo "snrroko" > test.txt
+            # pull new image
+            docker pull snrroko/vault:$BUILD_NUMBER
+                      
+            # stop and run new containers
+            docker stop vault-app 2>/dev/null || echo "No old container running"
+            docker rm vault-app 2>/dev/null || echo "No old container to remove"
+            
+            docker compose down 2>/dev/null || echo "No docker compose services running"
+            # repeat postgresql setup 
+            docker compose up -d
+            until docker compose exec -T db pg_isready -U vault-admin -d postgres; do
+              echo "Waiting on database container"
+              sleep 2
+            done                      
+          
+          docker compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
+
+          docker run snrroko/vault:$BUILD_NUMBER -p 8080:8080 --name vault-app
+          
+          # prune images
+          docker prune -f
+            
           EOF
