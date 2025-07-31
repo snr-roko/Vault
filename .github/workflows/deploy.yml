@@ -7,6 +7,9 @@ on:
 jobs:
   deploy-vault:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
@@ -31,5 +34,10 @@ jobs:
           BUILD_NUMBER=$(date +'%d%m%Y%H%M%S')
           echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
           echo "Generated Build Number: $BUILD_NUMBER"
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_PASSWORD }}
       - name: Maven Verify
         run: mvn -B -ntp clean verify jib:build -Ddocker.image.tag=$BUILD_NUMBER
