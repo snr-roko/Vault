@@ -67,12 +67,16 @@ jobs:
               echo "Waiting on database container"
               sleep 2
             done                      
-          
+            
+          EOF
+      - name: SSH into and start web server
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ env.AWS_EC2_PUBLIC_IP }} << EOF
             docker-compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
 
             docker run -d snrroko/vault:$BUILD_NUMBER -p 8080:8080 --name vault-app
-          
+
             # prune images
             docker prune -f
-            
+          
           EOF
