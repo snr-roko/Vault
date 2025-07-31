@@ -60,15 +60,15 @@ jobs:
             docker stop vault-app 2>/dev/null || echo "No old container running"
             docker rm vault-app 2>/dev/null || echo "No old container to remove"
             
-            docker compose down 2>/dev/null || echo "No docker compose services running"
+            docker-compose down 2>/dev/null || echo "No docker compose services running"
             # repeat postgresql setup 
-            docker compose up -d
+            docker-compose up -d
             until docker compose exec -T db pg_isready -U vault-admin -d postgres; do
               echo "Waiting on database container"
               sleep 2
             done                      
           
-          docker compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
+          docker-compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
 
           docker run snrroko/vault:$BUILD_NUMBER -p 8080:8080 --name vault-app
           
