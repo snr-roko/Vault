@@ -63,7 +63,7 @@ jobs:
             docker-compose down 2>/dev/null || echo "No docker compose services running"
             # repeat postgresql setup 
             docker-compose up -d
-            until docker compose exec -T db pg_isready -U vault-admin -d postgres; do
+            until docker-compose exec -T db pg_isready -U vault-admin -d postgres; do
               echo "Waiting on database container"
               sleep 2
             done                      
