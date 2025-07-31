@@ -68,11 +68,11 @@ jobs:
               sleep 2
             done                      
           
-          docker-compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
+            docker-compose exec -T db psql -U vault-admin -c "CREATE DATABASE vault_db;" || true
 
-          docker run snrroko/vault:$BUILD_NUMBER -p 8080:8080 --name vault-app
+            docker run snrroko/vault:$BUILD_NUMBER -p 8080:8080 --name vault-app
           
-          # prune images
-          docker prune -f
+            # prune images
+            docker prune -f
             
           EOF
