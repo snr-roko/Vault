@@ -12,7 +12,13 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       AWS_EC2_PRIVATE_KEY: ${{ secrets.AWS_EC2_SSH_PRIVATE_KEY }}
       AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
+      - name: Announce Deployment
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Deployment Job started: ${{ github.action_repository }} - ${{ github.job }}"}'
+          ${{ env.SLACK_WEBHOOK_URL }}
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
       - name: Configure JDK
@@ -90,3 +96,9 @@ jobs:
             docker image prune -f
       
           EOF
+      - name: Announce status of job
+        if: always()
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Deployment Job ended; Status of Job ${{ github.action_repository }} - ${{ github.job }}: ${{ job.status }}"}'
+          ${{ env.SLACK_WEBHOOK_URL }}
