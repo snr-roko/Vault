@@ -43,7 +43,7 @@ jobs:
         if: success()
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"${{ github.actor }} pull request integration succeeded. Reach Pull request on https://${{ github.action_repository }}/commit/${{ github.sha }}"}'
+          --data '{"text":"${{ github.actor }} pull request integration succeeded. Review Pull request on https://${{ github.action_repository }}/commit/${{ github.sha }}"}'
           ${{ env.SLACK_WEBHOOK_URL }}
 
 
